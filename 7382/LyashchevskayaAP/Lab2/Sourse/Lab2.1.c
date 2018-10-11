@@ -124,7 +124,7 @@ int find_sec_bracket(char *str) {						//Ищет парную скобку в �
 		if (str[i] == ')')
 			right_br++;
 	}
-	if(i = strlen(str))
+	if(i > strlen(str))
 		abort_("\nIncorrect expression, needs more brackets");
 	return i;
 }
