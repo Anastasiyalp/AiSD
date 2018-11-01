@@ -11,7 +11,7 @@ using namespace std;
 
 int index_person(string, string *, int);							//Функция нахождения индекса имени
 void find_child(int, int, int **, Stack*, int);							//Функция нахождения детей и записи в стек
-void print_stack(int, Stack*, string *);							//Функция печати поколений из стека
+void print_stack(int, Stack*, string *, ofstream &);							//Функция печати поколений из стека
 
 int main(int argc, char * argv[]) {
 
@@ -69,8 +69,11 @@ int main(int argc, char * argv[]) {
 	Stack *stack = new Stack;
 
 	find_child(0, index_person(name, names, persons), concts, stack, persons);		//Найдем и запишем рекурсивно детей для nameю
-	print_stack(0, stack, names);								//Выведем список потомков.
 
+	ofstream fout;
+	fout.open("Result.txt");
+	print_stack(0, stack, names, fout);								//Выведем список потомков.
+	fout.close();
 	for(int i = 0; i < persons; i++)							//Освобождение памяти под concts.
 		free(concts[i]);
 	free(concts);
@@ -101,13 +104,13 @@ void find_child(int remove,int i_name, int **concts, Stack *stack, int persons) 
 	}
 }
 
-void print_stack(int remove, Stack *stack, string *names) {					//Функция печати стека.
-	if(remove)	cout << "Потомки "<< remove << "-го поколения: ";
-	else		cout << "Потомки для ";
+void print_stack(int remove, Stack *stack, string *names, ofstream &fout) {					//Функция печати стека.
+	if(remove)	fout << "Потомки "<< remove << "-го поколения: ";
+	else		fout << "Потомки для ";
 	for(int i = 0; i < stack->count_remove(remove); i++)					//По количеству потомков текущего колена remove
-		cout << names[stack->pop()] << ' ';						//вывод имени по индексу полученному из стека.
-	cout << endl;
+		fout << names[stack->pop()] << ' ';						//вывод имени по индексу полученному из стека.
+	fout << endl;
 	if(stack->isEmpty())									//Если стек не пуст
-		print_stack(remove+1, stack, names);						//идем печатать следующее колено.
+		print_stack(remove+1, stack, names, fout);						//идем печатать следующее колено.
 }
 
