@@ -5,19 +5,19 @@
 
 using namespace std;
 
-class Stack{
+class Queue{
 public:
-	Stack() {										//Конструктор выделяет память под данные.
+	Queue() {										//Конструктор выделяет память под данные.
 		size = 0;
 		data = new int[START_SIZE];
 		i_remove = new int[COUNT_REMOVE];
 		for(int i = 0; i < COUNT_REMOVE; i++)
 			i_remove[i] = 0;
 	}
-	~Stack() {}										//Деструктор пуст, так как стек подается в функции.
+	~Queue() {}										//Деструктор пуст, так как  подается в функции.
 
 	void push(int val, int remove) {							//Пуш элемента с учетом колена.
-		if(is_in_stack(val, remove + 1))						//В случае если в этом колене уже встречался этот потомок, не записывать его
+		if(is_in_queue(val, remove + 1))						//В случае если в этом колене уже встречался этот потомок, не записывать его
 			return;
 		resize();									//Увеливаем память, если нужно.
 		int i_el = 0;
@@ -42,9 +42,9 @@ public:
 
 	int count_remove(int remove) {return i_remove[remove];}					//Возвращает количество элементов колена
 
-	int isEmpty() {return size;}								//Проверяет стек на пустоту
+	int isEmpty() {return size;}								//Проверяет очередь на пустоту
 
-	int is_in_stack(int el, int remove) {							//Проверяет встречался ли элемент в предыдущих коленах
+	int is_in_queue(int el, int remove) {							//Проверяет встречался ли элемент в предыдущих коленах
 		int i_el = 0;
 		for(int i = 0; i < remove; i++)
 			i_el += i_remove[i];
@@ -57,7 +57,7 @@ public:
 private:
 	int *data;										//Указатель под массив имен
 	int *i_remove;										//Указатель под массив количества элементов колена по индексу
-	int size;										//Размер стека
+	int size;										//Размер очереди
 
 	void resize() {										//Динамическое увеличение массива data
 		if(size % START_SIZE == 0 && size) {

@@ -2,7 +2,7 @@
 #include <fstream>
 #include <string>
 
-#include "Stack.cpp"
+#include "Queue.cpp"
 
 //#define USER
 #define TEST
@@ -10,8 +10,8 @@
 using namespace std;
 
 int index_person(string, string *, int);							//Функция нахождения индекса имени
-void find_child(int, int, int **, Stack*, int);							//Функция нахождения детей и записи в стек
-void print_stack(int, Stack*, string *, ofstream &);							//Функция печати поколений из стека
+void find_child(int, int, int **, Queue*, int);							//Функция нахождения детей и записи в очередь
+void print_queue(int, Queue*, string *, ofstream &);							//Функция печати поколений из очереди
 
 int main(int argc, char * argv[]) {
 
@@ -69,11 +69,11 @@ int main(int argc, char * argv[]) {
 	name = names[0];
 #endif
 
-	Stack *stack = new Stack;
+	Queue *queue = new Queue;
 
-	find_child(0, index_person(name, names, persons), concts, stack, persons);		//Найдем и запишем рекурсивно детей для nameю
+	find_child(0, index_person(name, names, persons), concts, queue, persons);		//Найдем и запишем рекурсивно детей для nameю
 
-	print_stack(0, stack, names, fout);								//Выведем список потомков.
+	print_queue(0, queue, names, fout);								//Выведем список потомков.
 	fout.close();
 	for(int i = 0; i < persons; i++)							//Освобождение памяти под concts.
 		free(concts[i]);
@@ -88,30 +88,30 @@ int index_person(string name, string *names, int persons) {					//Функция
 	exit(1);
 }
 
-void find_child(int remove,int i_name, int **concts, Stack *stack, int persons) {		//Функция нахождения детей по индексу имени.
-	stack->push(i_name, remove);								//Пуш в стек индекса найденного имени
+void find_child(int remove,int i_name, int **concts, Queue *queue, int persons) {		//Функция нахождения детей по индексу имени.
+	queue->push(i_name, remove);								//Пуш в очередь индекса найденного имени
 	for(int i = 0; i < persons; i++){							//с учетом колена потомка.
 		if(concts[i][i_name]) {								//Для найденного имени
 			if(concts[i_name][i]) {
 				cout << "Ошибка: ребенок не может быть отцом его родителя" << endl;
 				exit(1);
 			}
-			if(stack->is_in_stack(i, remove)) {
+			if(queue->is_in_queue(i, remove)) {
 				cout << "Ошибка: замкнутая цепь родства" << endl;
 				exit(1);
 			}
-			find_child(remove + 1, i, concts, stack, persons);			//поиск детей для детей name.
+			find_child(remove + 1, i, concts, queue, persons);			//поиск детей для детей name.
 		}
 	}
 }
 
-void print_stack(int remove, Stack *stack, string *names, ofstream &fout) {					//Функция печати стека.
+void print_queue(int remove, Queue *queue, string *names, ofstream &fout) {					//Функция печати очереди.
 	if(remove)	fout << "Потомки "<< remove << "-го поколения: ";
 	else		fout << "Потомки для ";
-	for(int i = 0; i < stack->count_remove(remove); i++)					//По количеству потомков текущего колена remove
-		fout << names[stack->pop()] << ' ';						//вывод имени по индексу полученному из стека.
+	for(int i = 0; i < queue->count_remove(remove); i++)					//По количеству потомков текущего колена remove
+		fout << names[queue->pop()] << ' ';						//вывод имени по индексу полученному из очереди.
 	fout << endl;
-	if(stack->isEmpty())									//Если стек не пуст
-		print_stack(remove+1, stack, names, fout);						//идем печатать следующее колено.
+	if(queue->isEmpty())									//Если очередь не пуста
+		print_queue(remove+1, queue, names, fout);						//идем печатать следующее колено.
 }
 
