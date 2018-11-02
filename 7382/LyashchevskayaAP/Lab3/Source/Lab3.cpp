@@ -15,6 +15,9 @@ void print_stack(int, Stack*, string *, ofstream &);							//Функция пе
 
 int main(int argc, char * argv[]) {
 
+	ofstream fout;										//Открываем файл на запись результата
+	fout.open("Result.txt");
+	
 	ifstream file (argv[1]);								//В первый раз открываем файл с именами
 	string tmp;										//для нахождения количества имен persons
 	int persons;
@@ -70,8 +73,6 @@ int main(int argc, char * argv[]) {
 
 	find_child(0, index_person(name, names, persons), concts, stack, persons);		//Найдем и запишем рекурсивно детей для nameю
 
-	ofstream fout;
-	fout.open("Result.txt");
 	print_stack(0, stack, names, fout);								//Выведем список потомков.
 	fout.close();
 	for(int i = 0; i < persons; i++)							//Освобождение памяти под concts.
