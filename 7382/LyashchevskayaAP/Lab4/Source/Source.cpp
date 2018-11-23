@@ -111,7 +111,7 @@ public:
 			cout << "\x1b[34m├▶ \x1b[0m" ;
 		if(node->left == NULL) s.append("  ");
 		else s.append("\x1b[31m│ \x1b[0m");
-		recB(node->right, deep + 1, s);	//и дальнейший обход правого поддерева
+		recB(node->right, deep + 1, s);					//и дальнейший обход правого поддерева
 		if(node->left) cout << c;					//Для левого поддерева, если оно есть
 		if(node->left != NULL)
 			cout << "\x1b[31m└▶ \x1b[m" ;				//форматный вывод
