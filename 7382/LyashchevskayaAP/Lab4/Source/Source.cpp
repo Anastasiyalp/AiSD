@@ -70,36 +70,23 @@ public:
                         tmp = tmp->right;
                 }
         }
-        void rec(Node *node, int deep) {                                        //Соответствует фие printTree
-                while(node != NULL) {
-                        if(node == NULL) return;
-                        cout << ' ';
-                        for(int i = 0; i < deep; i++)
-                                cout << "\x1b[32m│ \x1b[0m";
-                        if(node->right == NULL)
-                                cout << "\x1b[32m└▶ \x1b[0m" << node->root << endl;
-                        else
-                                cout << "\x1b[32m├▶ \x1b[0m" << node->root << endl;
-                        rec(node->left, deep + 1);
-                        node = node->right;
-                }
-        }
 	void printBTreeLPK() {							//Печать ЛПК
 		cout << "Последоваельность ЛПК: " ;
 		LPK(top, 0);							//Вводится рекурсивная функция для полноты защиты элементов класса
 		cout << endl;
 	}
+	void printBTree() {							//Печать бинарного дерева
+		string s = "";
+		recB(top, 0, s);						//Вводится рекурсивная функция для полноты защиты элементов класса
+	}
+private:									//обеспечивает приватность всего дерева
 	void LPK(Node *node, int deep) {					//Соответствует фие printBTreeLPK
 		if(node == NULL) return;
 		LPK(node->left, deep+1);
 		LPK(node->right, deep+1);
 		cout << node->root;
 	}
-	void printBTree() {							//Печать бинарного дерева
-		string s = "";
-		recB(top, 0, s);						//Вводится рекурсивная функция для полноты защиты элементов класса
-	}
-	void recB(Node *node, int deep, string s) {				//Соответствует фие printBTree
+        void recB(Node *node, int deep, string s) {				//Соответствует фие printBTree
 		if(node == NULL) return;					//Граница рекурсии
 		string c = s;							//Допстрока для разного вывода у левого и правого поддеревьев
 		if(!deep)	cout << "▶ ";					//Первый заход
@@ -117,7 +104,20 @@ public:
 			cout << "\x1b[31m└▶ \x1b[m" ;				//форматный вывод
 		recB(node->left, deep + 1, c.append("  "));			//и дальнейший обход левого поддерева
 	}
-private:									//обеспечивает приватность всего дерева
+	void rec(Node *node, int deep) {                                        //Соответствует фие printTree
+                while(node != NULL) {
+                        if(node == NULL) return;
+                        cout << ' ';
+                        for(int i = 0; i < deep; i++)
+                                cout << "\x1b[32m│ \x1b[0m";
+                        if(node->right == NULL)
+                                cout << "\x1b[32m└▶ \x1b[0m" << node->root << endl;
+                        else
+                                cout << "\x1b[32m├▶ \x1b[0m" << node->root << endl;
+                        rec(node->left, deep + 1);
+                        node = node->right;
+                }
+        }
 	Node *curNode;
 	Node *top;
 };
