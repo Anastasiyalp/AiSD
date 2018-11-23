@@ -26,11 +26,6 @@ public:
 	~BTree() {
 		del(top);
 	}
-	void del(Node *node){							//Последовательное удаление элементов
-		if(node->left == NULL && node->right == NULL) delete node;
-		if(node->left) del(node->left);
-		if(node->right) del(node->right);
-	}
 	void root(char c) {							//Записывает корень элемента
 		curNode->root = c;
 		curNode->left = NULL;
@@ -80,6 +75,11 @@ public:
 		recB(top, 0, s);						//Вводится рекурсивная функция для полноты защиты элементов класса
 	}
 private:									//обеспечивает приватность всего дерева
+	void del(Node *node){							//Последовательное удаление элементов
+		if(node->left == NULL && node->right == NULL) delete node;
+		if(node->left) del(node->left);
+		if(node->right) del(node->right);
+	}
 	void LPK(Node *node, int deep) {					//Соответствует фие printBTreeLPK
 		if(node == NULL) return;
 		LPK(node->left, deep+1);
