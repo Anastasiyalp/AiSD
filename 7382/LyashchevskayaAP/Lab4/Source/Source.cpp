@@ -147,8 +147,7 @@ int main() {
 	int step = 2;								//Тк шаг 1 уже был, начнем со второго
 	while (klp != KLP.end()) {						//Дальше все шаги прописаны в коде
 		bTree.root(*klp);						//Ну ладно, записываем корень
-		if (klp == KLP.end()) break;					//Ой, все, закончилось
-
+		
 		cout << endl << "Шаг " << step++ << ":" << endl;		//Оформление
 		cout << "\tКЛП: " ; print(KLP, *klp);
 		cout << "\tЛКП: " ; print(LKP, *lkp);
