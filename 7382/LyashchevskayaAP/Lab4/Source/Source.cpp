@@ -26,7 +26,7 @@ public:
 	~BTree() {
 		del(top);
 	}
-	void root(char c) {							//Записывает корень элемента
+	void rootIn(char c) {							//Записывает корень элемента
 		curNode->root = c;
 		curNode->left = NULL;
 		curNode->right = NULL;
@@ -146,8 +146,8 @@ int main() {
 	cout <<"\tКорень дерева - '" << *klp << "'" << endl;			//Корень дерева всегда в начале ЛКП
 	int step = 2;								//Тк шаг 1 уже был, начнем со второго
 	while (klp != KLP.end()) {						//Дальше все шаги прописаны в коде
-		bTree.root(*klp);						//Ну ладно, записываем корень
-		
+		bTree.rootIn(*klp);						//Ну ладно, записываем корень
+
 		cout << endl << "Шаг " << step++ << ":" << endl;		//Оформление
 		cout << "\tКЛП: " ; print(KLP, *klp);
 		cout << "\tЛКП: " ; print(LKP, *lkp);
@@ -156,7 +156,7 @@ int main() {
 		while (*(klp++) != *lkp) {
 			if (klp == KLP.end()) {cout << "Последовательность завершилась прежде чем было найдено '" << *lkp << "'" << endl; exit(1);}
 			bTree.left();						//Проходим в левое поддерево
-			bTree.root(*klp);
+			bTree.rootIn(*klp);
 			cout << "\t\tНа пути встретили '" << *klp << "' и записали как левый корень."  << endl;
 		}
 		if (klp == KLP.end()) break;					//Все
